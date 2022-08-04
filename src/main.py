@@ -1,14 +1,15 @@
 import threading
 import datetime
 import time
-import getopt
-import sys
 import flask
 
 # Imports from custom lib
 import web_servers.server
 from data.health import health_status
+
+# Import Configs
 from configs.app_configs import app_config
+from configs.job_config import job_config
 
 # Defining Flask App and config at global level
 flask_app = flask.Flask(app_config.app_name)
@@ -20,8 +21,9 @@ flask_app.config['JSON_SORT_KEYS'] = False
 def run(from_date, to_date):
     while True:
         print(f"Batch range {from_date} - {to_date}")
+        connector = job_config.connector
+        extractor = job_config.extractor
         change_verification()
-
         print("Verification Completed")
         health_status.update_status(status='Complete', details=f'Task Completed at {datetime.date.today()}')
         time.sleep(30)

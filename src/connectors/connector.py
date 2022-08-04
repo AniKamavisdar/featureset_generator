@@ -1,23 +1,17 @@
-from configs.connector_config import conf
+from configs.connector_config import static_config
 
 
 class DBConnector:
-    conn_string = None
 
     def __init__(self, conn_type):
-        self.db_config = conf.connector_configs[conn_type]
-        self.__populate_conn_string(self.db_config)
-
-    def __populate_conn_string(self, db_config):
-        self.conn_string = db_config.conn_string
+        self.conn_type = conn_type
+        self.db_config = static_config.connector_configs[conn_type]
+        self.connection_obj = None
 
 
 class FileConnector:
     conn_string = None
 
     def __init__(self, conn_type):
-        self.db_config = conf.connector_configs[conn_type]
-        self.__populate_conn_string(self.db_config)
-
-    def populate_conn_string(self, db_config):
-        self.conn_string = db_config.conn_string
+        self.conn_type = conn_type
+        self.db_config = static_config.connector_configs[conn_type]

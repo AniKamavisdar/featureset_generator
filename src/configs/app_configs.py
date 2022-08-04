@@ -11,6 +11,12 @@ def get_config_env():
 
 
 class AppConfig:
+    """
+    All the parameters required by the AppConfig will be populated by the MasterService.
+    This will ensure that only one instance of a single type of service request is running.
+    All the services will be tracked by master. (By Mechanism?)
+    """
+
     app_name = None
 
     # lower_limit = 5431
@@ -27,8 +33,8 @@ class AppConfig:
     def __get_runtime_arguments(self):
         try:
             argument_list = sys.argv[1:]
-            options = "aphv"
-            long_options = ["app_name", "port", "host", "version"]
+            options = "a:p:h:v:c:f:t:"
+            long_options = ["app_name=", "port=", "host=", "version=", "connector=", "function=", "function_type="]
             arguments, values = getopt.getopt(argument_list, options, long_options)
 
             for curr_arg, curr_val in arguments:

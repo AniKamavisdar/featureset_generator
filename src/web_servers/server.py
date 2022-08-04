@@ -1,11 +1,12 @@
 from threading import Thread
 import flask
-from flask import redirect,request
+from flask import redirect, request
 from waitress.server import create_server
 
 from data.health import health_status
 from main import flask_app
 from main import app_config
+
 # flask_app = flask.Flask(app_config.app_name)
 # flask_app.url_map.strict_slashes = False
 # flask_app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
@@ -34,7 +35,7 @@ def show_distrib_map():
 @flask_app.route('/shutdown')
 def get_model_details():
     stop_server()
-    return flask.jsonify({"Shutdown Request" : "Acknowledged"})
+    return flask.jsonify({"Shutdown Request": "Acknowledged"})
 
 
 class ServerThread(Thread):
@@ -43,7 +44,7 @@ class ServerThread(Thread):
     def __init__(self, app):
         Thread.__init__(self)
         print(f"Instantiating server : {app}")
-        self.srv = create_server(app,host=app_config.host,port=app_config.port)
+        self.srv = create_server(app, host=app_config.host, port=app_config.port)
 
     def run(self):
         print(f"Starting web server")
@@ -59,7 +60,7 @@ def start_server():
     server = ServerThread(flask_app)
     server.start()
     print(f"Server thread started on {app_url}")
-    health_status.update_status(status='Started',details='Server Started')
+    health_status.update_status(status='Started', details='Server Started')
 
 
 def await_server_end():
@@ -67,6 +68,6 @@ def await_server_end():
 
 
 def stop_server():
-    global server
+    # global server
     print("Application server shutdown requested...")
     server.shutdown()
