@@ -22,7 +22,7 @@ def run(from_date, to_date):
     while True:
         print(f"Batch range {from_date} - {to_date}")
         connector = job_config.connector
-        extractor = job_config.extractor
+        transformer = job_config.transformer
         change_verification()
         print("Verification Completed")
         health_status.update_status(status='Complete', details=f'Task Completed at {datetime.date.today()}')

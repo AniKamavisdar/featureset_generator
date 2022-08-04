@@ -3,7 +3,7 @@ import sys
 
 # Importing connector parsers and function parsers
 from connectors import bigquery, postgres  # , json_file, gcp_bucket
-from data.extractors import pkl_extractor, py_extractor, py_obj_extractor
+from data.transformers import pkl_transformer, py_transformer, py_obj_transformer, passthrough_transformer
 
 
 class JobConfig:
@@ -25,7 +25,7 @@ class JobConfig:
         self.date_column = 'date'
         self.__get_runtime_arguments()
         self.__get_connector(self.connector)
-        self.__get_extractor(self.function_type)
+        self.__get_transformer(self.function_type)
 
     def __get_runtime_arguments(self):
         try:
@@ -64,12 +64,12 @@ class JobConfig:
         else:
             raise Exception(f"{conn_type} is not valid connector type supported by application...")
 
-    def __get_extractor(self, function_type):
+    def __get_transformer(self, function_type):
         """
         WARNING : This function is internal to the class,
         should not be used to call externally as it hierarchical to previous statements.
         
-        The function is supposed to use runtime arguments to create extractor base.
+        The function is supposed to use runtime arguments to create transformer base.
         This would serve to create run multiple instance of this job with different configurations,
         Allowing the ability to parse external logic.
         
@@ -77,12 +77,13 @@ class JobConfig:
         :return:
         """
         if function_type == 'pkl':
-            self.extractor = pkl_extractor.PklExtractor()
+            self.transformer = pkl_transformer.PklTransformer()
         elif function_type == 'py_file':
-            self.extractor = py_extractor.PyFileExtractor()
+            self.transformer = py_transformer.PyFileTransformer()
         elif function_type == 'py_method':
-            self.extractor = py_obj_extractor.PyObjExtractor()
-            raise Exception(f"{function_type} is not yet defined, implementation in progress.")
+            self.transformer = py_obj_transformer.PyObjTransformer()
+        elif function_type == 'passthrough':
+            self.transformer = passthrough_transformer.PassThrough()
         elif function_type == 'r_file':
             raise Exception(f"{function_type} is not yet defined, implementation in progress.")
         elif function_type == 'r_method':

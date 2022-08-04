@@ -8,6 +8,7 @@ class StaticConfig:
     function_configs = {'pkl': "PickelTypeFunction",
                         'py_file': "PythonFileFunction",
                         'py_method': "PythonMethod",
+                        'passthrough': "PassThrough",
                         'r_file': "RFileFunction",
                         'r_method': "RMethod"}
 
