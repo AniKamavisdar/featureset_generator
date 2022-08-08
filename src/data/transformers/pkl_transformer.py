@@ -5,4 +5,6 @@ class PklTransformer(Transformer):
 
     def __init__(self):
         super().__init__('pkl')
-        print(f"Transformer is {self.function_type}")
+
+    def load_transformer(self):
+        pass

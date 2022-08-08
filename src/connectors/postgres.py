@@ -18,3 +18,9 @@ class PostGres(DBConnector):
 
     def __create_connection_object(self):
         pass
+
+    def connect(self):
+        pass
+
+    def disconnect(self):
+        pass

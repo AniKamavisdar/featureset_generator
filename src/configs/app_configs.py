@@ -1,5 +1,6 @@
 import getopt
 import sys
+from os import environ as env
 
 
 def get_config_env():
@@ -7,7 +8,7 @@ def get_config_env():
     Let's say all servers would have environment variables which tells the type of env
     Variable Name could be 'ENVIRONMENT', we can then extract using 'os.env' command and set our config.
     Making this method unit testable and configurable"""
-    return 'dev'
+    return env['ENV']
 
 
 class AppConfig:
@@ -33,8 +34,9 @@ class AppConfig:
     def __get_runtime_arguments(self):
         try:
             argument_list = sys.argv[1:]
-            options = "a:p:h:v:c:f:t:"
-            long_options = ["app_name=", "port=", "host=", "version=", "connector=", "function=", "function_type="]
+            options = "a:p:h:v:c:t:f:e:"
+            long_options = ["app_name=", "port=", "host=", "version=", "connector=", "function=",
+                            "function_type=", "extractor_logic="]
             arguments, values = getopt.getopt(argument_list, options, long_options)
 
             for curr_arg, curr_val in arguments:

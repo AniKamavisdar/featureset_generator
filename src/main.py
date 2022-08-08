@@ -4,7 +4,7 @@ import time
 import flask
 
 # Imports from custom lib
-import web_servers.server
+import web_servers.server as main_server
 from data.health import health_status
 
 # Import Configs
@@ -21,8 +21,14 @@ flask_app.config['JSON_SORT_KEYS'] = False
 def run(from_date, to_date):
     while True:
         print(f"Batch range {from_date} - {to_date}")
+        health_status.update_status(status='In Progress', details=f'Connection In Progress, update at: {datetime.date.today()}')
         connector = job_config.connector
+        connector.connect()
+        data = connector.run(f"SELECT * FROM {job_config.extractor_logic} LIMIT 10")
+        health_status.update_status(status='In Progress', details=f'Transformer In Progress, update at: {datetime.date.today()}')
         transformer = job_config.transformer
+        transformer.load_transformer()
+        transformer.transformer_object(data)
         change_verification()
         print("Verification Completed")
         health_status.update_status(status='Complete', details=f'Task Completed at {datetime.date.today()}')
@@ -34,7 +40,7 @@ def run(from_date, to_date):
 
 def change_verification():
     print("Sleeping for 1-minutes")
-    health_status.update_status(status='In Progress', details=f'Task In Progress, update at: {datetime.date.today()}')
+    health_status.update_status(status='In Progress', details=f'Change Verification In Progress, update at: {datetime.date.today()}')
     time.sleep(30)
 
 
@@ -44,11 +50,11 @@ def __main():
     to_date = datetime.date.today()
     from_date = to_date-datetime.timedelta(days=30)
     # Start server as thread
-    web_servers.server.start_server()
+    main_server.start_server()
     # Start main modelling process as a thread
     threading.Thread(target=run, args=(from_date, to_date), daemon=True).start()
-    web_servers.server.await_server_end()
-    web_servers.server.stop_server()
+    main_server.await_server_end()
+    main_server.stop_server()
     print("Application Ends")
     print("------------------------------------------------------------------")
 

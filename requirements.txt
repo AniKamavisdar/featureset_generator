@@ -1,5 +1,12 @@
 pip==22.2.1
 setuptools==63.4.0
 wheel==0.37.1
+# Server requirements
 Flask==2.2.0
 waitress==2.1.2
+# Data processing requirements
+pandas==1.4.1
+# Google related requirements
+google==3.0.0
+pyarrow==7.0.0
+google-cloud-bigquery-storage==2.13.2

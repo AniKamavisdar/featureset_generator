@@ -1,12 +1,21 @@
-from configs.connector_config import static_config
+from configs.static import static_config
+from abc import ABC, abstractmethod
 
 
-class DBConnector:
+class DBConnector(ABC):
 
     def __init__(self, conn_type):
         self.conn_type = conn_type
         self.db_config = static_config.connector_configs[conn_type]
         self.connection_obj = None
+
+    @abstractmethod
+    def connect(self):
+        pass
+
+    @abstractmethod
+    def disconnect(self):
+        pass
 
 
 class FileConnector:

@@ -12,7 +12,7 @@ class Health:
             'Environment': get_config_env(),
             'Status': status,
             'Dependency': None,
-            'Connector': job_config.connector,
+            'Connector': job_config.connector_type,
             'Details': details,
         }
 

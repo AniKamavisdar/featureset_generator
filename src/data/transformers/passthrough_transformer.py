@@ -4,4 +4,10 @@ from data.transformers.transformer import Transformer
 class Passthrough(Transformer):
     def __init__(self):
         super().__init__('passthrough')
-        print(f"Transformer is {self.function_type}")
+
+    def load_transformer(self):
+        self.transformer_object = self.pass_through
+
+    @staticmethod
+    def pass_through(*args):
+        return args

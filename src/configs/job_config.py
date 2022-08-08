@@ -22,24 +22,27 @@ class JobConfig:
     """
 
     def __init__(self):
-        self.date_column = 'date'
+        # self.run_date = datetime.datetime.today()
         self.__get_runtime_arguments()
-        self.__get_connector(self.connector)
+        self.__get_connector(self.connector_type)
         self.__get_transformer(self.function_type)
 
     def __get_runtime_arguments(self):
         try:
             argument_list = sys.argv[1:]
-            options = "a:p:h:v:c:f:t:"
-            long_options = ["app_name=", "port=", "host=", "version=", "connector=", "function=", "function_type="]
+            options = "a:p:h:v:c:t:f:e:"
+            long_options = ["app_name=", "port=", "host=", "version=", "connector=", "function=",
+                            "function_type=", "extractor_logic="]
             arguments, values = getopt.getopt(argument_list, options, long_options)
             for curr_arg, curr_val in arguments:
                 if curr_arg in ("-c", "--connector"):
-                    self.connector = curr_val
+                    self.connector_type = curr_val
                 elif curr_arg in ("-f", "--function"):
                     self.function_module = curr_val
                 elif curr_arg in ("-t", "--function_type"):
                     self.function_type = curr_val
+                elif curr_arg in ("-e", "--extractor_logic"):
+                    self.extractor_logic = curr_val
         except getopt.error as err:
             raise Exception(str(err))
 
@@ -83,7 +86,7 @@ class JobConfig:
         elif function_type == 'py_method':
             self.transformer = py_obj_transformer.PyObjTransformer()
         elif function_type == 'passthrough':
-            self.transformer = passthrough_transformer.PassThrough()
+            self.transformer = passthrough_transformer.Passthrough()
         elif function_type == 'r_file':
             raise Exception(f"{function_type} is not yet defined, implementation in progress.")
         elif function_type == 'r_method':
