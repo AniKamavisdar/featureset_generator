@@ -4,10 +4,10 @@ from data.extractors.base import Extractor
 class SQLExtractor(Extractor):
     def __init__(self):
         super().__init__('sql_extractor')
-        self.ext_logic = None
 
-    def set_sql(self, query):
-        self.ext_logic = query
+    def set_ext_logic(self, file_name):
+        with open(file_name, 'r') as f:
+            self.ext_logic = f.read()
 
     def create_sql(self, params_dict):
         """

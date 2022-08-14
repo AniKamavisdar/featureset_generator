@@ -1,17 +1,23 @@
 from threading import Thread
 import flask
+from os import environ as env
 from flask import redirect, request
 from waitress.server import create_server
+import datetime
 
 from data.health import health_status
 from main import flask_app
 from main import app_config
+
+from workflow.job import extract
 
 # flask_app = flask.Flask(app_config.app_name)
 # flask_app.url_map.strict_slashes = False
 # flask_app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 # flask_app.config['JSON_SORT_KEYS'] = False
 # global flask_app
+
+OUTPUT_PATH = env['FEATURE_OUTPUT_LOC']
 
 
 @flask_app.before_request
@@ -36,6 +42,14 @@ def show_distrib_map():
 def get_model_details():
     stop_server()
     return flask.jsonify({"Shutdown Request": "Acknowledged"})
+
+
+@flask_app.route('/extract')
+def extract_data():
+    print(f"Starting data extraction at  : {datetime.datetime.today()}")
+    data = extract()
+    print(f"Data Extraction completed at : {datetime.datetime.today()}")
+    return flask.jsonify(data.squeeze().to_dict())
 
 
 class ServerThread(Thread):

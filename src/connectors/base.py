@@ -17,6 +17,10 @@ class DBConnector(ABC):
     def disconnect(self):
         pass
 
+    @abstractmethod
+    def run(self, logic):
+        pass
+
 
 class FileConnector:
     conn_string = None

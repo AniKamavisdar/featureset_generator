@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from configs.static import static_config
 
-
 class Transformer(ABC):
     """
     The transformer will get executed with the baseline assumption that necessary required libraries will be installed
@@ -17,5 +16,5 @@ class Transformer(ABC):
         self.transformer_object = None
 
     @abstractmethod
-    def load_transformer(self):
+    def load_transformer(self, params=None):
         pass

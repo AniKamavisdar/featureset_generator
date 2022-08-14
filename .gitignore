@@ -6,9 +6,6 @@ __pycache__/
 # C extensions
 *.so
 
-# test related files
-test_confs/
-
 # Distribution / packaging
 .Python
 build/
@@ -133,3 +130,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# test related files
+test_confs/
+output/

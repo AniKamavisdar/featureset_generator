@@ -1,4 +1,4 @@
-from connectors.connector import DBConnector
+from connectors.base import DBConnector
 from exception_handlers.connector_handler import handler
 
 
@@ -23,4 +23,7 @@ class PostGres(DBConnector):
         pass
 
     def disconnect(self):
+        pass
+
+    def run(self, query):
         pass

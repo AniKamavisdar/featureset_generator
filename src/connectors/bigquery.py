@@ -1,4 +1,4 @@
-from connectors.connector import DBConnector
+from connectors.base import DBConnector
 
 from google.cloud import bigquery as bq
 

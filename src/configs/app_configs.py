@@ -24,12 +24,14 @@ class AppConfig:
     # upper_limit = 5440
 
     def __init__(self, app_name='featureset_generator', port=5341, host='0.0.0.0', version=get_config_env()):
+        print("INITIALIZING APP CONFIGURATIONS...")
         self.env = get_config_env()
         self.app_name = app_name
         self.port = port  # self.__get_port(port)
         self.host = host
         self.version = version
         self.__get_runtime_arguments()
+        print("APP CONFIGURATIONS INITIALIZED.")
 
     def __get_runtime_arguments(self):
         try:

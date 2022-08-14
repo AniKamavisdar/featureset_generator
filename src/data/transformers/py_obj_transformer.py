@@ -6,5 +6,5 @@ class PyObjTransformer(Transformer):
     def __init__(self):
         super().__init__('py_method')
 
-    def load_transformer(self):
+    def load_transformer(self, file_name=None):
         pass
