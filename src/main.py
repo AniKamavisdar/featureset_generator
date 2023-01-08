@@ -1,4 +1,4 @@
-import threading
+# import threading
 import datetime
 import time
 import flask
@@ -44,10 +44,10 @@ def __main():
     # Start server as thread
     main_server.start_server()
     # Start main modelling process as a thread
-    threading.Thread(target=run, args=(from_date, to_date), daemon=True).start()
-    main_server.await_server_end()
-    main_server.stop_server()
-    print("Application Ends")
+    # threading.Thread(target=run, args=(from_date, to_date), daemon=True).start()
+    # main_server.await_server_end()
+    # main_server.stop_server()
+    print("Startup Finished Ends")
     print("------------------------------------------------------------------")
 
 

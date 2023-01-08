@@ -1,4 +1,7 @@
+import datetime
+
 from configs.job_config import job_config
+from configs.app_configs import app_config
 
 
 def initialize(config=job_config):
@@ -14,6 +17,16 @@ def extract(config=job_config):
     connector, extractor, transformer = initialize(config)
     return get_features(connector, extractor, transformer)
 
+
+def extract_and_save(config=job_config):
+    file_name = (app_config.app_name + "_" +
+                 app_config.version + "_" +
+                 datetime.datetime.strftime(datetime.datetime.today(), '%Y%m%d_%H%M%S')+ ".csv")
+    connector, extractor, transformer = initialize(config)
+    data = get_features(connector, extractor, transformer)
+    print(f"Saving to file {file_name}")
+    data.to_csv(job_config.PATH+f"/{file_name}")
+    return {"Total Data Extracted": data.shape}
 
 def get_features(connector, extractor, transformer):
     """

@@ -9,7 +9,7 @@ from data.health import health_status
 from main import flask_app
 from main import app_config
 
-from workflow.job import extract
+from workflow.job import extract,extract_and_save
 
 # flask_app = flask.Flask(app_config.app_name)
 # flask_app.url_map.strict_slashes = False
@@ -51,6 +51,13 @@ def extract_data():
     print(f"Data Extraction completed at : {datetime.datetime.today()}")
     return flask.jsonify(data.squeeze().to_dict())
 
+@flask_app.route('/extract_and_save')
+def extract_and_save_data():
+    print(f"Starting data extraction at  : {datetime.datetime.today()}")
+    data_dict = extract_and_save()
+    print(f"Data Extraction completed at : {datetime.datetime.today()}")
+    return flask.jsonify(data_dict)
+
 
 class ServerThread(Thread):
     srv = None
@@ -82,6 +89,6 @@ def await_server_end():
 
 
 def stop_server():
-    # global server
+    global server
     print("Application server shutdown requested...")
     server.shutdown()
